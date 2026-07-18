@@ -1,0 +1,54 @@
+Build a world-class architecture website for Studio Hub Architects using Next.js 15, React, TypeScript, Tailwind CSS, Framer Motion, GSAP, React Three Fiber, and Supabase.
+
+The design should feel like a premium architectural presentation rather than a conventional business website. Use cinematic animations, smooth scrolling, glassmorphism, blueprint-inspired backgrounds, subtle parallax, and modern minimalist layouts.
+
+Brand identity:
+- Primary: #3ECAC8
+- Secondary: #EF725D
+- Dark: #1E1E1E
+- White: #F8F8F8
+
+Implement:
+
+• Full-screen animated hero with architectural render and animated blueprint grid.
+• Featured Projects with dynamic filtering (Residential, Hospitality, Commercial, Site Supervision) and dedicated project pages including story, gallery, floor plans, videos, downloadable PDFs, materials, timeline, and related projects.
+• Interactive Kenya map showing project locations.
+• Services section with animated architectural line illustrations.
+• Process timeline from consultation to project completion.
+• Before-and-after comparison slider.
+• Materials and finishes library.
+• Team section with elegant profile layouts.
+• Testimonials, blog, careers, FAQs, and contact page.
+• Consultation booking with project type, budget, location, file uploads, and preferred meeting date.
+• WhatsApp floating contact button.
+
+Build a secure Supabase backend with:
+- Authentication
+- PostgreSQL
+- Storage
+- Row-Level Security
+
+Create a professional admin dashboard for:
+- Projects
+- Clients
+- Media
+- Blog
+- Team
+- Testimonials
+- Careers
+- Messages
+- Appointments
+- Analytics
+- Site settings
+
+Create a client portal where authenticated clients can:
+- Track project milestones
+- View progress photos
+- Download drawings and documents
+- Review invoices and payments
+- Exchange messages
+- View construction timelines
+
+Optimize for SEO with structured data, Open Graph tags, XML sitemap, robots.txt, fast loading, image optimization, and accessibility.
+
+Ensure the website is fully responsive, production-ready, scalable, and deployable on Vercel with Supabase as the backend.

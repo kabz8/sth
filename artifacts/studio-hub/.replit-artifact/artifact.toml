@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Studio Hub Architects"
+version = "1.0.0"
+id = "artifacts/studio-hub"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22106
+
+[services.development]
+run = "pnpm --filter @workspace/studio-hub run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/studio-hub", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/studio-hub/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22106"
+BASE_PATH = "/"

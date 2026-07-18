@@ -36,10 +36,6 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-4xl"
           >
-            <div className="font-mono text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-6 flex items-center gap-4">
-              <span className="w-12 h-px bg-primary"></span>
-              Nairobi, Kenya
-            </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-[1.05] tracking-tight mb-8">
               Architectural <br/>
               <span className="text-primary italic font-light">precision</span> meets <br/>

@@ -99,8 +99,8 @@ export default function Home() {
             </span>
             {/* Line 3 */}
             <span className="block">
-              <AnimatedWord word="African" delay={1.0} />{" "}
-              <AnimatedWord word="boldness." delay={1.12} />
+              <AnimatedWord word="bold" delay={1.0} />{" "}
+              <AnimatedWord word="vision." delay={1.12} />
             </span>
           </h1>
 
@@ -151,7 +151,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 1.9, ease: "easeOut" }}
           >
             <div className="text-center">
-              <div className="text-2xl font-display font-bold text-primary">14+</div>
+              <div className="text-2xl font-display font-bold text-primary">5+</div>
               <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Years</div>
             </div>
             <div className="w-px h-10 bg-border" />
@@ -174,7 +174,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
             {[
               { label: "Completed Projects", value: stats?.total || "120+" },
-              { label: "Years Experience", value: "14+" },
+              { label: "Years Experience", value: "5+" },
               { label: "Design Awards", value: "15" },
               { label: "Countries Active", value: "4" }
             ].map((stat, i) => (

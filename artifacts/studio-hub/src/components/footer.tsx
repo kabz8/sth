@@ -15,8 +15,8 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-muted-foreground font-sans leading-relaxed mb-8 max-w-sm">
-              Architectural precision meets African boldness. Crafting timeless,
-              functional, and elegant spaces across Kenya since 2010.
+              Architectural precision meets bold vision. Crafting timeless,
+              functional, and elegant spaces across Kenya since 2020.
             </p>
             <div className="flex gap-4">
               <a href="https://www.instagram.com/studio_hub.architects" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors">

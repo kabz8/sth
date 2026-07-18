@@ -1,5 +1,4 @@
-/* Jost — closest free web substitute for Futura; Futura/Century Gothic used natively when available */
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..900;1,9..40,100..900&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -124,10 +123,9 @@
   --chart-4: 0 0% 40%;
   --chart-5: 0 0% 80%;
 
-  /* Futura stack: uses native Futura on Mac/iOS, Century Gothic on Windows, Jost as web fallback */
-  --app-font-sans: "Futura", "Century Gothic", "Futura PT", "Trebuchet MS", "Jost", sans-serif;
-  --app-font-display: "Futura", "Century Gothic", "Futura PT", "Trebuchet MS", "Jost", sans-serif;
-  --app-font-mono: "Futura", "Century Gothic", "Futura PT", "Trebuchet MS", "Jost", sans-serif;
+  --app-font-sans: "DM Sans", sans-serif;
+  --app-font-display: "DM Sans", sans-serif;
+  --app-font-mono: "DM Sans", sans-serif;
   
   --radius: 0; /* Sharp corners for precision architecture look */
   

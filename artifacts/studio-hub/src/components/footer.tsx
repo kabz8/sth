@@ -32,7 +32,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6">Explore</h4>
+            <h4 className="font-sans text-sm uppercase tracking-widest text-primary mb-6">Explore</h4>
             <ul className="space-y-4 font-sans">
               <li><Link href="/projects"><span className="hover:text-primary transition-colors cursor-pointer">Projects</span></Link></li>
               <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Expertise</span></Link></li>
@@ -43,7 +43,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6">Connect</h4>
+            <h4 className="font-sans text-sm uppercase tracking-widest text-primary mb-6">Connect</h4>
             <ul className="space-y-4 font-sans">
               <li><Link href="/contact"><span className="hover:text-primary transition-colors cursor-pointer">Contact Us</span></Link></li>
               <li><Link href="/book"><span className="hover:text-primary transition-colors cursor-pointer">Book Consultation</span></Link></li>
@@ -53,7 +53,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6">Office</h4>
+            <h4 className="font-sans text-sm uppercase tracking-widest text-primary mb-6">Office</h4>
             <ul className="space-y-6 font-sans">
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 shrink-0 text-primary mt-1" />
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-mono text-muted-foreground">
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-sans text-muted-foreground">
           <p>© {new Date().getFullYear()} Studio Hub Architects. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy"><span className="hover:text-primary transition-colors cursor-pointer">Privacy</span></Link>

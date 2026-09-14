@@ -91,7 +91,7 @@ export function FloatingContact() {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="group fixed bottom-6 right-[5.5rem] z-50 inline-flex h-12 items-center gap-2 border border-primary/70 bg-background/85 px-4 text-sm font-medium text-primary backdrop-blur-md transition-all hover:border-primary hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="group fixed bottom-6 right-[5.5rem] z-50 inline-flex h-12 items-center gap-2 rounded border border-primary/70 bg-background/85 px-4 text-sm font-medium text-primary backdrop-blur-md transition-all hover:border-primary hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Open send message form"
         >
           <span>Send Message</span>

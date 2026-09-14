@@ -271,21 +271,21 @@ export default function Home() {
           <div className="absolute inset-0 bg-blueprint-dark opacity-30 pointer-events-none" />
           <div className="container mx-auto px-5 md:px-12 relative z-10">
             <Reveal>
-              <p className="font-mono text-primary text-xs tracking-[0.3em] uppercase mb-3">Client Voices</p>
+              <p className="font-sans text-primary text-xs tracking-[0.3em] uppercase mb-3">Client Voices</p>
               <h2 className="text-3xl md:text-6xl font-display font-bold tracking-tight mb-10 md:mb-16">What they say.</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
               {testimonials.slice(0, 3).map((t, i) => (
                 <Reveal key={t.id} delay={i * 0.12}>
                   <div className="border border-border p-6 md:p-8 bg-background/50 flex flex-col gap-4 md:gap-6">
-                    <div className="text-3xl md:text-4xl text-primary font-display leading-none">"</div>
+                    <div className="text-3xl md:text-4xl text-primary font-sans leading-none">"</div>
                     <p className="font-sans text-sm md:text-base text-foreground/85 leading-relaxed italic flex-grow">
                       {t.content}
                     </p>
                     <div>
-                      <div className="font-display font-bold text-sm md:text-base">{t.clientName}</div>
+                      <div className="font-sans font-bold text-sm md:text-base">{t.clientName}</div>
                       {t.company && (
-                        <div className="font-mono text-[10px] md:text-xs text-muted-foreground uppercase tracking-widest mt-1">
+                        <div className="font-sans text-[10px] md:text-xs text-muted-foreground uppercase tracking-widest mt-1">
                           {t.company}
                         </div>
                       )}

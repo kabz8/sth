@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/animations";
-import { ArrowRight, MoveRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -148,22 +147,16 @@ export default function Home() {
             transition={{ duration: 0.5, delay: isMobile ? 0.35 : 1.45 }}
           >
             <Link href="/projects">
-              <Button
-                size="lg"
-                className="rounded-none font-mono uppercase tracking-widest text-xs px-6 md:px-8 h-12 md:h-14 bg-foreground text-background hover:bg-primary hover:text-primary-foreground border border-transparent hover:border-primary transition-all"
-              >
+              <span className="group inline-flex items-center gap-3 text-sm font-medium text-foreground border-b border-foreground/70 pb-2 hover:text-primary hover:border-primary transition-colors cursor-pointer">
                 View Portfolio
-              </Button>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
             </Link>
             <Link href="/book">
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-none font-mono uppercase tracking-widest text-xs px-6 md:px-8 h-12 md:h-14 border-border hover:border-primary hover:bg-transparent hover:text-primary transition-all group"
-              >
+              <span className="group inline-flex items-center gap-3 text-sm font-medium text-foreground/80 border-b border-border pb-2 hover:text-primary hover:border-primary transition-colors cursor-pointer">
                 Book Consultation
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </span>
             </Link>
           </motion.div>
 
@@ -244,7 +237,7 @@ export default function Home() {
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-background/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <div className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center translate-y-4 group-hover:translate-y-0 transition-transform">
+                           <div className="w-14 h-14 rounded-full border border-primary bg-background/30 text-primary backdrop-blur-sm flex items-center justify-center translate-y-4 group-hover:translate-y-0 transition-transform">
                             <ArrowRight className="w-5 h-5 -rotate-45" />
                           </div>
                         </div>
@@ -263,9 +256,9 @@ export default function Home() {
 
             <div className="mt-10 text-center md:hidden">
               <Link href="/projects">
-                <Button variant="outline" className="rounded-none font-mono uppercase tracking-widest text-xs border-primary text-primary px-8 h-12">
+                <span className="group inline-flex items-center gap-3 text-sm font-medium text-primary border-b border-primary/60 pb-2 hover:border-primary transition-colors cursor-pointer">
                   View All Projects <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                </span>
               </Link>
             </div>
           </div>
@@ -319,13 +312,10 @@ export default function Home() {
               Let's talk about your vision. Our team is ready to transform your ideas into architectural reality.
             </p>
             <Link href="/book">
-              <Button
-                size="lg"
-                className="rounded-none font-mono uppercase tracking-widest text-xs md:text-sm px-8 md:px-12 h-12 md:h-16 bg-primary text-primary-foreground hover:bg-accent transition-all"
-              >
+              <span className="group inline-flex items-center gap-3 text-sm md:text-base font-medium text-primary border-b border-primary/70 pb-3 hover:text-accent hover:border-accent transition-colors cursor-pointer">
                 Book a Free Consultation
-                <MoveRight className="w-4 md:w-5 h-4 md:h-5 ml-3" />
-              </Button>
+                <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
             </Link>
           </Reveal>
         </div>

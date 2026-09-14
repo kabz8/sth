@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { FloatingContact } from "@/components/floating-contact";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -16,6 +17,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       <Navbar />
       <main className="flex-grow pt-[64px] relative z-10">{children}</main>
       <Footer />
+      <FloatingContact />
       <WhatsAppButton />
     </div>
   );

@@ -2,8 +2,12 @@
 
 This repository is prepared for a Git-based Vercel deployment:
 
-- The React/Vite website builds to `artifacts/studio-hub/dist/public`.
+- The React/Vite website builds to `artifacts/studio-hub/dist/public` when
+  deploying from the repository root, or `dist/public` when the Vercel Root
+  Directory is set to `artifacts/studio-hub`.
 - `api/index.ts` exposes the existing Express API as a Vercel Function.
+- `artifacts/studio-hub/api/index.ts` supports the current nested Vercel Root
+  Directory configuration.
 - `/api/*` remains available to the frontend and is excluded from the SPA rewrite.
 - Project images in `artifacts/studio-hub/public/` are tracked in Git and copied into the production build.
 - The PostgreSQL schema and API contracts are unchanged.
@@ -25,8 +29,11 @@ Do not add `.env` files, database passwords, or connection strings to Git.
 When creating the Vercel project:
 
 1. Import the Git repository.
-2. Keep the project root set to the repository root.
-3. Let the committed `vercel.json` provide the install command, build command, output directory, and SPA rewrite.
+2. Keep the project root set to the repository root, or leave the current
+   `artifacts/studio-hub` Root Directory selected. Both configurations are
+   supported by the committed Vercel files.
+3. Let the matching committed `vercel.json` provide the install command, build
+   command, output directory, and SPA rewrite.
 4. Use Node.js 20 or newer.
 
 ## 3. Add the database environment variable

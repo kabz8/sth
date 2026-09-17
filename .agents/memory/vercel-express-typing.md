@@ -3,8 +3,8 @@ name: Vercel Express typing
 description: Express application typing behavior in the Vercel TypeScript validation path
 ---
 
-When an Express app is bundled through Vercel's TypeScript validator in this workspace, infer the application type from the `express()` factory instead of annotating it with an imported `Express` type.
+When Express code is bundled through Vercel's TypeScript validator in this workspace, infer application and router types from the `express()` and `Router()` factories instead of annotating them with imported `Express` or `IRouter` types.
 
-**Why:** The validator can resolve the imported `Express` type differently from the runtime Express application type, producing false-looking errors that methods such as `use` do not exist.
+**Why:** The validator can resolve imported Express interfaces differently from the runtime application/router types, producing false-looking errors that methods such as `use` do not exist.
 
-**How to apply:** Keep the runtime import and factory call unchanged, but remove the explicit imported application-type annotation if Vercel reports missing Express methods.
+**How to apply:** Keep the runtime imports and factory calls unchanged, but remove explicit imported application/router type annotations if Vercel reports missing Express methods.

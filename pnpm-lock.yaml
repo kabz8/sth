@@ -161,6 +161,9 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
     devDependencies:
+      drizzle-orm:
+        specifier: 'catalog:'
+        version: 0.45.2(@types/pg@8.20.0)(pg@8.22.0)
       prettier:
         specifier: ^3.9.5
         version: 3.9.5
@@ -615,9 +618,6 @@ importers:
 
   lib/db:
     dependencies:
-      drizzle-orm:
-        specifier: 'catalog:'
-        version: 0.45.2(@types/pg@8.20.0)(pg@8.22.0)
       drizzle-zod:
         specifier: ^0.8.3
         version: 0.8.3(drizzle-orm@0.45.2(@types/pg@8.20.0)(pg@8.22.0))(zod@3.25.76)

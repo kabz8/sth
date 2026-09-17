@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { eq, sql, desc, asc } from "drizzle-orm";
 import { db, projectsTable } from "@workspace/db";
 import {
@@ -12,7 +12,7 @@ import {
 
 const router = Router();
 
-router.get("/projects/stats", async (req, res): Promise<void> => {
+router.get("/projects/stats", async (req: Request, res: Response): Promise<void> => {
   const total = await db.select({ count: sql<number>`count(*)::int` }).from(projectsTable);
   const featured = await db.select({ count: sql<number>`count(*)::int` }).from(projectsTable).where(eq(projectsTable.featured, true));
   const byCategory = await db
@@ -32,12 +32,12 @@ router.get("/projects/stats", async (req, res): Promise<void> => {
   });
 });
 
-router.get("/projects/featured", async (req, res): Promise<void> => {
+router.get("/projects/featured", async (req: Request, res: Response): Promise<void> => {
   const rows = await db.select().from(projectsTable).where(eq(projectsTable.featured, true));
   res.json(rows);
 });
 
-router.get("/projects", async (req, res): Promise<void> => {
+router.get("/projects", async (req: Request, res: Response): Promise<void> => {
   const parsed = ListProjectsQueryParams.safeParse(req.query);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -61,7 +61,7 @@ router.get("/projects", async (req, res): Promise<void> => {
   res.json(rows);
 });
 
-router.post("/projects", async (req, res): Promise<void> => {
+router.post("/projects", async (req: Request, res: Response): Promise<void> => {
   const parsed = CreateProjectBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -71,14 +71,14 @@ router.post("/projects", async (req, res): Promise<void> => {
   res.status(201).json(row);
 });
 
-router.get("/projects/:id", async (req, res): Promise<void> => {
+router.get("/projects/:id", async (req: Request, res: Response): Promise<void> => {
   const { id: rawId } = GetProjectParams.parse(req.params);
   const [row] = await db.select().from(projectsTable).where(eq(projectsTable.id, rawId));
   if (!row) { res.status(404).json({ error: "Not found" }); return; }
   res.json(row);
 });
 
-router.patch("/projects/:id", async (req, res): Promise<void> => {
+router.patch("/projects/:id", async (req: Request, res: Response): Promise<void> => {
   const { id: rawId } = UpdateProjectParams.parse(req.params);
   const parsed = UpdateProjectBody.safeParse(req.body);
   if (!parsed.success) {
@@ -90,7 +90,7 @@ router.patch("/projects/:id", async (req, res): Promise<void> => {
   res.json(row);
 });
 
-router.delete("/projects/:id", async (req, res): Promise<void> => {
+router.delete("/projects/:id", async (req: Request, res: Response): Promise<void> => {
   const { id: rawId } = DeleteProjectParams.parse(req.params);
   await db.delete(projectsTable).where(eq(projectsTable.id, rawId));
   res.status(204).send();

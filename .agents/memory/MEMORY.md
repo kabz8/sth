@@ -1,1 +1,2 @@
 - [Vercel Express typing](vercel-express-typing.md) — let the Express factory infer the app type in Vercel serverless entry graphs.
+- [Shared Drizzle dependency](shared-drizzle-dependency.md) — keep Drizzle peer-resolved from one workspace owner to prevent duplicate ORM type identities.

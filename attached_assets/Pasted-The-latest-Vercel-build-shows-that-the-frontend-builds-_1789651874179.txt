@@ -1,0 +1,51 @@
+The latest Vercel build shows that the frontend builds successfully, but the API/server TypeScript build is failing.
+
+Please fix the CURRENT errors based on the build log.
+
+IMPORTANT: The previous Express `.use()` errors are no longer the main issue. Do not focus on Express unless you find a remaining Express problem.
+
+The main problem is a Drizzle ORM dependency/version mismatch.
+
+The build log shows errors like:
+
+* `SQL<number> is not assignable to SQL<unknown>`
+* `Types have separate declarations of a private property 'shouldInlineParams'`
+* `import("/api-server/node_modules/drizzle-orm/...")`
+* `import("/api-server/node_modules/@workspace/db/node_modules/drizzle-orm/...")`
+
+This indicates that two separate copies of `drizzle-orm` are being loaded.
+
+Please do the following:
+
+1. Inspect the root `package.json` and all workspace `package.json` files.
+2. Inspect `api-server/package.json` and the `@workspace/db` package.
+3. Find every place where `drizzle-orm` is declared.
+4. Make sure the entire monorepo uses ONE compatible version of `drizzle-orm`.
+5. Prevent `@workspace/db` from installing its own separate nested copy of `drizzle-orm`.
+6. Use the workspace dependency setup correctly so both `api-server` and `@workspace/db` resolve to the same Drizzle package instance/version.
+7. Update the pnpm workspace configuration if necessary.
+8. Regenerate/update `pnpm-lock.yaml` consistently.
+9. Do NOT solve this with `any`, `@ts-ignore`, or disabling TypeScript checks.
+10. Preserve all existing database functionality and schema behavior.
+
+Then fix the `TS7006` errors in:
+
+`../api-server/src/routes/projects.ts`
+
+The errors are:
+
+* `Parameter 'req' implicitly has an 'any' type`
+* `Parameter 'res' implicitly has an 'any' type`
+
+Use the correct Express `Request` and `Response` types or otherwise make the route handlers correctly typed, consistent with the project's Express setup.
+
+After making the changes:
+
+* Run the full TypeScript/build command used by Vercel.
+* Confirm that the duplicate Drizzle type errors are gone.
+* Confirm that the `req`/`res` implicit-any errors are gone.
+* Continue fixing any remaining errors until the production build passes.
+
+Do NOT just suppress the errors. Fix the underlying dependency and typing problems.
+
+The frontend Vite build already succeeds, so do not unnecessarily modify the frontend.

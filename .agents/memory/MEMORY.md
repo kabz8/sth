@@ -1,0 +1,1 @@
+- [Vercel Express typing](vercel-express-typing.md) — let the Express factory infer the app type in Vercel serverless entry graphs.

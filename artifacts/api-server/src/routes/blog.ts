@@ -12,6 +12,14 @@ import {
 
 const router = Router();
 
+function normalizePublishedAt(value: string | undefined): Date | null | undefined {
+  if (value === undefined) return undefined;
+  if (value.trim() === "") return null;
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
 router.get("/blog", async (req, res): Promise<void> => {
   const parsed = ListBlogPostsQueryParams.safeParse(req.query);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
@@ -30,7 +38,13 @@ router.get("/blog", async (req, res): Promise<void> => {
 router.post("/blog", async (req, res): Promise<void> => {
   const parsed = CreateBlogPostBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
-  const [row] = await db.insert(blogPostsTable).values(parsed.data).returning();
+  const { publishedAt, ...blogPost } = parsed.data;
+  const [row] = await db.insert(blogPostsTable).values({
+    ...blogPost,
+    ...(publishedAt === undefined
+      ? {}
+      : { publishedAt: normalizePublishedAt(publishedAt) }),
+  }).returning();
   res.status(201).json(row);
 });
 
@@ -45,7 +59,13 @@ router.patch("/blog/:id", async (req, res): Promise<void> => {
   const { id } = UpdateBlogPostParams.parse(req.params);
   const parsed = UpdateBlogPostBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
-  const [row] = await db.update(blogPostsTable).set(parsed.data).where(eq(blogPostsTable.id, id)).returning();
+  const { publishedAt, ...blogPost } = parsed.data;
+  const [row] = await db.update(blogPostsTable).set({
+    ...blogPost,
+    ...(publishedAt === undefined
+      ? {}
+      : { publishedAt: normalizePublishedAt(publishedAt) }),
+  }).where(eq(blogPostsTable.id, id)).returning();
   if (!row) { res.status(404).json({ error: "Not found" }); return; }
   res.json(row);
 });

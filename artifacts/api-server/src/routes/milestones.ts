@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { eq } from "drizzle-orm";
 import { db, milestonesTable } from "@workspace/db";
 import {
@@ -11,7 +11,7 @@ import {
 
 const router = Router();
 
-router.get("/milestones", async (req, res): Promise<void> => {
+router.get("/milestones", async (req: Request, res: Response): Promise<void> => {
   const parsed = ListMilestonesQueryParams.safeParse(req.query);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
   const { projectId } = parsed.data;
@@ -25,14 +25,14 @@ router.get("/milestones", async (req, res): Promise<void> => {
   res.json(rows);
 });
 
-router.post("/milestones", async (req, res): Promise<void> => {
+router.post("/milestones", async (req: Request, res: Response): Promise<void> => {
   const parsed = CreateMilestoneBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
   const [row] = await db.insert(milestonesTable).values(parsed.data).returning();
   res.status(201).json(row);
 });
 
-router.patch("/milestones/:id", async (req, res): Promise<void> => {
+router.patch("/milestones/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = UpdateMilestoneParams.parse(req.params);
   const parsed = UpdateMilestoneBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
@@ -41,7 +41,7 @@ router.patch("/milestones/:id", async (req, res): Promise<void> => {
   res.json(row);
 });
 
-router.delete("/milestones/:id", async (req, res): Promise<void> => {
+router.delete("/milestones/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = DeleteMilestoneParams.parse(req.params);
   await db.delete(milestonesTable).where(eq(milestonesTable.id, id));
   res.status(204).send();

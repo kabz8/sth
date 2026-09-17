@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { eq } from "drizzle-orm";
 import { db, contactsTable } from "@workspace/db";
 import {
@@ -11,7 +11,7 @@ import {
 
 const router = Router();
 
-router.get("/contacts", async (req, res): Promise<void> => {
+router.get("/contacts", async (req: Request, res: Response): Promise<void> => {
   const parsed = ListContactsQueryParams.safeParse(req.query);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
   const { status } = parsed.data;
@@ -25,14 +25,14 @@ router.get("/contacts", async (req, res): Promise<void> => {
   res.json(rows);
 });
 
-router.post("/contacts", async (req, res): Promise<void> => {
+router.post("/contacts", async (req: Request, res: Response): Promise<void> => {
   const parsed = CreateContactBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
   const [row] = await db.insert(contactsTable).values(parsed.data).returning();
   res.status(201).json(row);
 });
 
-router.patch("/contacts/:id", async (req, res): Promise<void> => {
+router.patch("/contacts/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = UpdateContactParams.parse(req.params);
   const parsed = UpdateContactBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
@@ -41,7 +41,7 @@ router.patch("/contacts/:id", async (req, res): Promise<void> => {
   res.json(row);
 });
 
-router.delete("/contacts/:id", async (req, res): Promise<void> => {
+router.delete("/contacts/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = DeleteContactParams.parse(req.params);
   await db.delete(contactsTable).where(eq(contactsTable.id, id));
   res.status(204).send();

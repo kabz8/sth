@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { eq } from "drizzle-orm";
 import { db, careersTable } from "@workspace/db";
 import {
@@ -10,19 +10,19 @@ import {
 
 const router = Router();
 
-router.get("/careers", async (req, res): Promise<void> => {
+router.get("/careers", async (req: Request, res: Response): Promise<void> => {
   const rows = await db.select().from(careersTable);
   res.json(rows);
 });
 
-router.post("/careers", async (req, res): Promise<void> => {
+router.post("/careers", async (req: Request, res: Response): Promise<void> => {
   const parsed = CreateCareerBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
   const [row] = await db.insert(careersTable).values(parsed.data).returning();
   res.status(201).json(row);
 });
 
-router.patch("/careers/:id", async (req, res): Promise<void> => {
+router.patch("/careers/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = UpdateCareerParams.parse(req.params);
   const parsed = UpdateCareerBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
@@ -31,7 +31,7 @@ router.patch("/careers/:id", async (req, res): Promise<void> => {
   res.json(row);
 });
 
-router.delete("/careers/:id", async (req, res): Promise<void> => {
+router.delete("/careers/:id", async (req: Request, res: Response): Promise<void> => {
   const { id } = DeleteCareerParams.parse(req.params);
   await db.delete(careersTable).where(eq(careersTable.id, id));
   res.status(204).send();

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { sql, eq } from "drizzle-orm";
 import {
   db,
@@ -12,7 +12,7 @@ import {
 
 const router = Router();
 
-router.get("/analytics/summary", async (req, res): Promise<void> => {
+router.get("/analytics/summary", async (req: Request, res: Response): Promise<void> => {
   const [projTotal] = await db.select({ count: sql<number>`count(*)::int` }).from(projectsTable);
   const [clientTotal] = await db.select({ count: sql<number>`count(*)::int` }).from(clientsTable);
   const [msgTotal] = await db.select({ count: sql<number>`count(*)::int` }).from(contactsTable);
@@ -34,7 +34,7 @@ router.get("/analytics/summary", async (req, res): Promise<void> => {
   });
 });
 
-router.get("/analytics/recent-activity", async (req, res): Promise<void> => {
+router.get("/analytics/recent-activity", async (req: Request, res: Response): Promise<void> => {
   const contacts = await db.select().from(contactsTable).orderBy(sql`${contactsTable.createdAt} desc`).limit(5);
   const appointments = await db.select().from(appointmentsTable).orderBy(sql`${appointmentsTable.createdAt} desc`).limit(5);
   const projects = await db.select().from(projectsTable).orderBy(sql`${projectsTable.createdAt} desc`).limit(3);

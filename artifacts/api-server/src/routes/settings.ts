@@ -1,16 +1,16 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { eq } from "drizzle-orm";
 import { db, settingsTable } from "@workspace/db";
 import { UpsertSettingBody } from "@workspace/api-zod";
 
 const router = Router();
 
-router.get("/settings", async (req, res): Promise<void> => {
+router.get("/settings", async (req: Request, res: Response): Promise<void> => {
   const rows = await db.select().from(settingsTable);
   res.json(rows);
 });
 
-router.put("/settings/:key", async (req, res): Promise<void> => {
+router.put("/settings/:key", async (req: Request, res: Response): Promise<void> => {
   const key = Array.isArray(req.params.key) ? req.params.key[0] : req.params.key;
   const parsed = UpsertSettingBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }

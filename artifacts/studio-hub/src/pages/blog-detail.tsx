@@ -1,21 +1,15 @@
 import { useParams, Link } from "wouter";
-import { useGetBlogPost, useListBlogPosts } from "@workspace/api-client-react";
 import { Reveal, ParallaxImage } from "@/components/animations";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
-import defaultBlogImage from "@assets/generated_images/blog-1.jpg";
+import { insights } from "@/data/insights";
 
 export default function BlogPostDetail() {
   const params = useParams();
   const postId = parseInt(params.id || "0");
+  const post = insights.find((insight) => insight.id === postId);
+  const relatedPosts = insights.filter((insight) => insight.id !== postId).slice(0, 2);
 
-  const { data: post, isLoading } = useGetBlogPost(postId, {
-    query: { enabled: !!postId, queryKey: ["/api/blog", postId] }
-  });
-
-  const { data: relatedPosts } = useListBlogPosts({ limit: 2 });
-
-  if (isLoading) return <div className="min-h-screen pt-32 px-12 animate-pulse">Loading essay...</div>;
   if (!post) return <div className="min-h-screen pt-32 px-12">Post not found.</div>;
 
   return (
@@ -55,7 +49,7 @@ export default function BlogPostDetail() {
         <div className="container mx-auto px-6 md:px-12 max-w-5xl">
           <Reveal delay={0.2}>
             <div className="aspect-[21/9] w-full bg-muted overflow-hidden">
-              <img src={post.featuredImage || defaultBlogImage} alt={post.title} className="w-full h-full object-cover" />
+              <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover" />
             </div>
           </Reveal>
         </div>
@@ -78,11 +72,11 @@ export default function BlogPostDetail() {
         <div className="container mx-auto px-6 md:px-12 max-w-5xl">
           <h3 className="font-display text-3xl font-bold mb-12">More Insights</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {relatedPosts?.filter(p => p.id !== post.id).slice(0, 2).map((related) => (
+            {relatedPosts.map((related) => (
               <Link key={related.id} href={`/blog/${related.id}`}>
                 <div className="group cursor-pointer">
                   <div className="aspect-[16/9] mb-4 overflow-hidden bg-muted">
-                    <img src={related.featuredImage || defaultBlogImage} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="" />
+                    <img src={related.featuredImage} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="" />
                   </div>
                   <div className="font-mono text-[10px] text-primary uppercase mb-2">{related.category}</div>
                   <h4 className="font-display text-2xl font-bold group-hover:text-primary transition-colors">{related.title}</h4>

@@ -1,12 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/animations";
 import { Link } from "wouter";
-import { useListServices } from "@workspace/api-client-react";
 import { Building2, Home, Hammer, DraftingCompass, PencilRuler, Maximize } from "lucide-react";
 
-export default function Services() {
-  const { data: services, isLoading } = useListServices();
+const services = [
+  {
+    id: "architectural-design",
+    title: "Architectural Design",
+    description: "From the first sketch to the final drawing set, we design distinctive buildings that respond to climate, context, and the way people live.",
+    icon: "building",
+  },
+  {
+    id: "interior-architecture",
+    title: "Interior Architecture",
+    description: "We shape cohesive interiors through thoughtful planning, material palettes, lighting, and custom details that make every room feel intentional.",
+    icon: "home",
+  },
+  {
+    id: "masterplanning",
+    title: "Masterplanning & Urban Design",
+    description: "We turn complex sites into clear, connected environments with strong movement, landscape, public space, and long-term development strategies.",
+    icon: "compass",
+  },
+  {
+    id: "project-management",
+    title: "Project Management",
+    description: "Our structured project management keeps consultants, contractors, budgets, and decisions aligned from approval through construction.",
+    icon: "hammer",
+  },
+  {
+    id: "site-supervision",
+    title: "Site Supervision",
+    description: "We protect the design intent on site through regular inspections, quality checks, contractor coordination, and practical issue resolution.",
+    icon: "pencil",
+  },
+  {
+    id: "feasibility-advisory",
+    title: "Feasibility & Development Advisory",
+    description: "Before you build, we test the opportunity with site analysis, planning considerations, development options, and a clear path to delivery.",
+    icon: "maximize",
+  },
+] as const;
 
+export default function Services() {
   const getIcon = (iconName: string) => {
     switch (iconName?.toLowerCase()) {
       case 'building': return <Building2 className="w-12 h-12 stroke-1" />;
@@ -34,33 +70,27 @@ export default function Services() {
 
       <section className="py-24">
         <div className="container mx-auto px-6 md:px-12">
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map(i => <div key={i} className="h-64 bg-muted animate-pulse border border-border" />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services?.map((service, i) => (
-                <Reveal key={service.id} delay={i * 0.1}>
-                  <div className="p-10 border border-border hover:border-primary bg-card transition-colors group relative overflow-hidden h-full flex flex-col">
-                    <div className="absolute -right-8 -top-8 text-border/30 group-hover:text-primary/10 transition-colors transform scale-150 rotate-12">
-                      {getIcon(service.icon || "")}
-                    </div>
-                    <div className="text-primary mb-8 relative z-10">
-                      {getIcon(service.icon || "")}
-                    </div>
-                    <h3 className="text-3xl font-display font-bold mb-4 relative z-10 group-hover:text-primary transition-colors">{service.title}</h3>
-                    <p className="text-muted-foreground font-sans leading-relaxed relative z-10 flex-grow">{service.description}</p>
-                    <div className="mt-8 pt-8 border-t border-border relative z-10">
-                      <Link href="/contact">
-                        <span className="font-mono text-xs uppercase tracking-widest text-foreground hover:text-primary transition-colors cursor-pointer">Inquire about service →</span>
-                      </Link>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, i) => (
+              <Reveal key={service.id} delay={i * 0.1}>
+                <div className="p-10 border border-border hover:border-primary bg-card transition-colors group relative overflow-hidden h-full flex flex-col">
+                  <div className="absolute -right-8 -top-8 text-border/30 group-hover:text-primary/10 transition-colors transform scale-150 rotate-12">
+                    {getIcon(service.icon)}
                   </div>
-                </Reveal>
-              ))}
-            </div>
-          )}
+                  <div className="text-primary mb-8 relative z-10">
+                    {getIcon(service.icon)}
+                  </div>
+                  <h3 className="text-3xl font-display font-bold mb-4 relative z-10 group-hover:text-primary transition-colors">{service.title}</h3>
+                  <p className="text-muted-foreground font-sans leading-relaxed relative z-10 flex-grow">{service.description}</p>
+                  <div className="mt-8 pt-8 border-t border-border relative z-10">
+                    <Link href="/contact">
+                      <span className="font-mono text-xs uppercase tracking-widest text-foreground hover:text-primary transition-colors cursor-pointer">Inquire about service →</span>
+                    </Link>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
       

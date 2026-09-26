@@ -1,22 +1,17 @@
 import { useParams } from "wouter";
-import { useGetProject, useListProjects } from "@workspace/api-client-react";
 import { Reveal, ParallaxImage } from "@/components/animations";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
+import { projects } from "@/data/projects";
 
 export default function ProjectDetail() {
   const params = useParams();
   const projectId = parseInt(params.id || "0");
   
-  const { data: project, isLoading } = useGetProject(projectId, {
-    query: { enabled: !!projectId, queryKey: ["/api/projects", projectId] }
-  });
-
-  const { data: relatedProjects } = useListProjects({ category: project?.category, limit: 3 });
-
-  if (isLoading) {
-    return <div className="min-h-screen pt-32 px-12 animate-pulse">Loading...</div>;
-  }
+  const project = projects.find((item) => item.id === projectId);
+  const relatedProjects = project
+    ? projects.filter((item) => item.category === project.category && item.id !== project.id).slice(0, 3)
+    : [];
 
   if (!project) {
     return <div className="min-h-screen pt-32 px-12">Project not found</div>;
@@ -97,7 +92,7 @@ export default function ProjectDetail() {
             <h2 className="text-3xl font-display tracking-tight">Similar Works</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {relatedProjects?.filter(p => p.id !== project.id).slice(0, 3).map(related => (
+            {relatedProjects.map(related => (
               <Link key={related.id} href={`/projects/${related.id}`}>
                 <div className="group cursor-pointer">
                   <div className="aspect-[4/3] bg-muted mb-4 overflow-hidden">

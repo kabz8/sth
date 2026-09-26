@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { useListProjects } from "@workspace/api-client-react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Reveal } from "@/components/animations";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { projects } from "@/data/projects";
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   
-  // Use the API hook to list projects
-  const { data: projects, isLoading } = useListProjects();
-
   const categories = ["All", "Residential", "Hospitality", "Commercial", "Site Supervision"];
 
   const filteredProjects = projects?.filter(p => 
@@ -52,20 +49,9 @@ export default function Projects() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-12">
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse flex flex-col gap-4">
-                  <div className="aspect-[4/5] bg-muted w-full" />
-                  <div className="h-6 bg-muted w-2/3" />
-                  <div className="h-4 bg-muted w-1/3" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-              <AnimatePresence>
-                {filteredProjects.map((project) => (
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            <AnimatePresence>
+              {filteredProjects.map((project) => (
                   <motion.div
                     key={project.id}
                     layout
@@ -106,12 +92,11 @@ export default function Projects() {
                       </div>
                     </Link>
                   </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-          {filteredProjects.length === 0 && !isLoading && (
+          {filteredProjects.length === 0 && (
             <div className="text-center py-32 border border-dashed border-border">
               <p className="text-muted-foreground font-mono uppercase tracking-widest">No projects found in this category.</p>
               <Button 

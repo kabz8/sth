@@ -47,7 +47,10 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(import.meta.dirname, 'dist/public'),
+    // Vercel's project root may be configured as either the monorepo root or
+    // this artifact directory. Emit to a literal `public` directory so both
+    // configurations can use the same unambiguous output convention.
+    outDir: path.resolve(import.meta.dirname, 'public'),
     emptyOutDir: true,
   },
   server: {

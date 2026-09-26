@@ -3,20 +3,44 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Studio Hub Architects API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: projects
+    description: Architecture project operations
+  - name: services
+    description: Services offered
+  - name: team
+    description: Team member operations
+  - name: testimonials
+    description: Client testimonials
+  - name: blog
+    description: Blog post operations
+  - name: careers
+    description: Career listings
+  - name: contacts
+    description: Contact messages
+  - name: appointments
+    description: Consultation booking
+  - name: clients
+    description: Client portal
+  - name: milestones
+    description: Project milestones
+  - name: settings
+    description: Site settings
+  - name: analytics
+    description: Site analytics summary
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +48,1692 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── Projects ───────────────────────────────────────────────────────────────
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List all projects
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+    post:
+      operationId: createProject
+      tags: [projects]
+      summary: Create a project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "201":
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+  /projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get a project by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    patch:
+      operationId: updateProject
+      tags: [projects]
+      summary: Update a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectUpdate"
+      responses:
+        "200":
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    delete:
+      operationId: deleteProject
+      tags: [projects]
+      summary: Delete a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /projects/stats:
+    get:
+      operationId: getProjectStats
+      tags: [projects]
+      summary: Project category stats and totals
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectStats"
+
+  /projects/featured:
+    get:
+      operationId: getFeaturedProjects
+      tags: [projects]
+      summary: Get featured projects
+      responses:
+        "200":
+          description: Featured projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  # ── Services ────────────────────────────────────────────────────────────────
+  /services:
+    get:
+      operationId: listServices
+      tags: [services]
+      summary: List all services
+      responses:
+        "200":
+          description: Services list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+    post:
+      operationId: createService
+      tags: [services]
+      summary: Create a service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceInput"
+      responses:
+        "201":
+          description: Created service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+
+  /services/{id}:
+    patch:
+      operationId: updateService
+      tags: [services]
+      summary: Update a service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceUpdate"
+      responses:
+        "200":
+          description: Updated service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+    delete:
+      operationId: deleteService
+      tags: [services]
+      summary: Delete a service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Team ────────────────────────────────────────────────────────────────────
+  /team:
+    get:
+      operationId: listTeamMembers
+      tags: [team]
+      summary: List all team members
+      responses:
+        "200":
+          description: Team members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamMember"
+    post:
+      operationId: createTeamMember
+      tags: [team]
+      summary: Create a team member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TeamMemberInput"
+      responses:
+        "201":
+          description: Created member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamMember"
+
+  /team/{id}:
+    patch:
+      operationId: updateTeamMember
+      tags: [team]
+      summary: Update a team member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TeamMemberUpdate"
+      responses:
+        "200":
+          description: Updated member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamMember"
+    delete:
+      operationId: deleteTeamMember
+      tags: [team]
+      summary: Delete a team member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Testimonials ─────────────────────────────────────────────────────────────
+  /testimonials:
+    get:
+      operationId: listTestimonials
+      tags: [testimonials]
+      summary: List testimonials
+      responses:
+        "200":
+          description: Testimonials list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Testimonial"
+    post:
+      operationId: createTestimonial
+      tags: [testimonials]
+      summary: Create a testimonial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestimonialInput"
+      responses:
+        "201":
+          description: Created testimonial
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Testimonial"
+
+  /testimonials/{id}:
+    patch:
+      operationId: updateTestimonial
+      tags: [testimonials]
+      summary: Update a testimonial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestimonialUpdate"
+      responses:
+        "200":
+          description: Updated testimonial
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Testimonial"
+    delete:
+      operationId: deleteTestimonial
+      tags: [testimonials]
+      summary: Delete a testimonial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Blog ─────────────────────────────────────────────────────────────────────
+  /blog:
+    get:
+      operationId: listBlogPosts
+      tags: [blog]
+      summary: List blog posts
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlogPost"
+    post:
+      operationId: createBlogPost
+      tags: [blog]
+      summary: Create a blog post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogPostInput"
+      responses:
+        "201":
+          description: Created post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+
+  /blog/{id}:
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      summary: Get a blog post by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+    patch:
+      operationId: updateBlogPost
+      tags: [blog]
+      summary: Update a blog post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogPostUpdate"
+      responses:
+        "200":
+          description: Updated post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+    delete:
+      operationId: deleteBlogPost
+      tags: [blog]
+      summary: Delete a blog post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Careers ──────────────────────────────────────────────────────────────────
+  /careers:
+    get:
+      operationId: listCareers
+      tags: [careers]
+      summary: List career listings
+      responses:
+        "200":
+          description: Careers list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Career"
+    post:
+      operationId: createCareer
+      tags: [careers]
+      summary: Create a career listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerInput"
+      responses:
+        "201":
+          description: Created career
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Career"
+
+  /careers/{id}:
+    patch:
+      operationId: updateCareer
+      tags: [careers]
+      summary: Update a career listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerUpdate"
+      responses:
+        "200":
+          description: Updated career
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Career"
+    delete:
+      operationId: deleteCareer
+      tags: [careers]
+      summary: Delete a career listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Contacts ──────────────────────────────────────────────────────────────────
+  /contacts:
+    get:
+      operationId: listContacts
+      tags: [contacts]
+      summary: List contact messages
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Contacts list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+    post:
+      operationId: createContact
+      tags: [contacts]
+      summary: Submit a contact message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Created contact
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+
+  /contacts/{id}:
+    patch:
+      operationId: updateContact
+      tags: [contacts]
+      summary: Update contact status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactUpdate"
+      responses:
+        "200":
+          description: Updated contact
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+    delete:
+      operationId: deleteContact
+      tags: [contacts]
+      summary: Delete a contact message
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Appointments ─────────────────────────────────────────────────────────────
+  /appointments:
+    get:
+      operationId: listAppointments
+      tags: [appointments]
+      summary: List consultation appointments
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Appointments list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Appointment"
+    post:
+      operationId: createAppointment
+      tags: [appointments]
+      summary: Book a consultation appointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentInput"
+      responses:
+        "201":
+          description: Created appointment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+
+  /appointments/{id}:
+    patch:
+      operationId: updateAppointment
+      tags: [appointments]
+      summary: Update appointment status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentUpdate"
+      responses:
+        "200":
+          description: Updated appointment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+    delete:
+      operationId: deleteAppointment
+      tags: [appointments]
+      summary: Delete an appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Clients ───────────────────────────────────────────────────────────────────
+  /clients:
+    get:
+      operationId: listClients
+      tags: [clients]
+      summary: List clients
+      responses:
+        "200":
+          description: Clients list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
+    post:
+      operationId: createClient
+      tags: [clients]
+      summary: Create a client record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "201":
+          description: Created client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+
+  /clients/{id}:
+    get:
+      operationId: getClient
+      tags: [clients]
+      summary: Get a client by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    patch:
+      operationId: updateClient
+      tags: [clients]
+      summary: Update a client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientUpdate"
+      responses:
+        "200":
+          description: Updated client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    delete:
+      operationId: deleteClient
+      tags: [clients]
+      summary: Delete a client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Milestones ────────────────────────────────────────────────────────────────
+  /milestones:
+    get:
+      operationId: listMilestones
+      tags: [milestones]
+      summary: List milestones
+      parameters:
+        - name: projectId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Milestones list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Milestone"
+    post:
+      operationId: createMilestone
+      tags: [milestones]
+      summary: Create a project milestone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneInput"
+      responses:
+        "201":
+          description: Created milestone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Milestone"
+
+  /milestones/{id}:
+    patch:
+      operationId: updateMilestone
+      tags: [milestones]
+      summary: Update a milestone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneUpdate"
+      responses:
+        "200":
+          description: Updated milestone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Milestone"
+    delete:
+      operationId: deleteMilestone
+      tags: [milestones]
+      summary: Delete a milestone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Settings ─────────────────────────────────────────────────────────────────
+  /settings:
+    get:
+      operationId: listSettings
+      tags: [settings]
+      summary: Get all site settings
+      responses:
+        "200":
+          description: Settings list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Setting"
+
+  /settings/{key}:
+    put:
+      operationId: upsertSetting
+      tags: [settings]
+      summary: Create or update a site setting
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingInput"
+      responses:
+        "200":
+          description: Updated setting
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Setting"
+
+  # ── Analytics ─────────────────────────────────────────────────────────────────
+  /analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      tags: [analytics]
+      summary: Dashboard analytics summary
+      responses:
+        "200":
+          description: Analytics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsSummary"
+
+  /analytics/recent-activity:
+    get:
+      operationId: getRecentActivity
+      tags: [analytics]
+      summary: Recent site activity feed
+      responses:
+        "200":
+          description: Recent activity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    # ── Project ─────────────────────────────────────────────────────────────────
+    Project:
+      type: object
+      required: [id, title, category, status, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: ["string", "null"]
+        category:
+          type: string
+          description: "Residential | Hospitality | Commercial | Site Supervision"
+        description:
+          type: ["string", "null"]
+        story:
+          type: ["string", "null"]
+        location:
+          type: ["string", "null"]
+        area:
+          type: ["string", "null"]
+        year:
+          type: ["integer", "null"]
+        status:
+          type: string
+          description: "planning | in_progress | completed"
+        featured:
+          type: boolean
+        coverImage:
+          type: ["string", "null"]
+        images:
+          type: array
+          items:
+            type: string
+        floorPlans:
+          type: array
+          items:
+            type: string
+        videos:
+          type: array
+          items:
+            type: string
+        materials:
+          type: array
+          items:
+            type: string
+        latitude:
+          type: ["number", "null"]
+        longitude:
+          type: ["number", "null"]
+        clientName:
+          type: ["string", "null"]
+        budget:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    ProjectInput:
+      type: object
+      required: [title, category, status]
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        story:
+          type: string
+        location:
+          type: string
+        area:
+          type: string
+        year:
+          type: integer
+        status:
+          type: string
+        featured:
+          type: boolean
+        coverImage:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        floorPlans:
+          type: array
+          items:
+            type: string
+        videos:
+          type: array
+          items:
+            type: string
+        materials:
+          type: array
+          items:
+            type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        clientName:
+          type: string
+        budget:
+          type: string
+
+    ProjectUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        story:
+          type: string
+        location:
+          type: string
+        area:
+          type: string
+        year:
+          type: integer
+        status:
+          type: string
+        featured:
+          type: boolean
+        coverImage:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        floorPlans:
+          type: array
+          items:
+            type: string
+        videos:
+          type: array
+          items:
+            type: string
+        materials:
+          type: array
+          items:
+            type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        clientName:
+          type: string
+        budget:
+          type: string
+
+    ProjectStats:
+      type: object
+      required: [total, byCategory, byStatus, featured]
+      properties:
+        total:
+          type: integer
+        featured:
+          type: integer
+        byCategory:
+          type: array
+          items:
+            type: object
+            required: [category, count]
+            properties:
+              category:
+                type: string
+              count:
+                type: integer
+        byStatus:
+          type: array
+          items:
+            type: object
+            required: [status, count]
+            properties:
+              status:
+                type: string
+              count:
+                type: integer
+
+    # ── Service ─────────────────────────────────────────────────────────────────
+    Service:
+      type: object
+      required: [id, title, description, sortOrder]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: ["string", "null"]
+        illustration:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+
+    ServiceInput:
+      type: object
+      required: [title, description]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        illustration:
+          type: string
+        sortOrder:
+          type: integer
+
+    ServiceUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        illustration:
+          type: string
+        sortOrder:
+          type: integer
+
+    # ── Team ─────────────────────────────────────────────────────────────────────
+    TeamMember:
+      type: object
+      required: [id, name, role, sortOrder]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+        bio:
+          type: ["string", "null"]
+        photo:
+          type: ["string", "null"]
+        email:
+          type: ["string", "null"]
+        linkedin:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+
+    TeamMemberInput:
+      type: object
+      required: [name, role]
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+        bio:
+          type: string
+        photo:
+          type: string
+        email:
+          type: string
+        linkedin:
+          type: string
+        sortOrder:
+          type: integer
+
+    TeamMemberUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+        bio:
+          type: string
+        photo:
+          type: string
+        email:
+          type: string
+        linkedin:
+          type: string
+        sortOrder:
+          type: integer
+
+    # ── Testimonial ───────────────────────────────────────────────────────────────
+    Testimonial:
+      type: object
+      required: [id, clientName, content, rating, createdAt]
+      properties:
+        id:
+          type: integer
+        clientName:
+          type: string
+        company:
+          type: ["string", "null"]
+        content:
+          type: string
+        rating:
+          type: integer
+        photo:
+          type: ["string", "null"]
+        projectId:
+          type: ["integer", "null"]
+        featured:
+          type: boolean
+        createdAt:
+          type: string
+
+    TestimonialInput:
+      type: object
+      required: [clientName, content, rating]
+      properties:
+        clientName:
+          type: string
+        company:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+        photo:
+          type: string
+        projectId:
+          type: integer
+        featured:
+          type: boolean
+
+    TestimonialUpdate:
+      type: object
+      properties:
+        clientName:
+          type: string
+        company:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+        photo:
+          type: string
+        projectId:
+          type: integer
+        featured:
+          type: boolean
+
+    # ── Blog ─────────────────────────────────────────────────────────────────────
+    BlogPost:
+      type: object
+      required: [id, title, slug, content, published, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        author:
+          type: ["string", "null"]
+        featuredImage:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+        published:
+          type: boolean
+        readTime:
+          type: ["integer", "null"]
+        createdAt:
+          type: string
+        publishedAt:
+          type: ["string", "null"]
+
+    BlogPostInput:
+      type: object
+      required: [title, slug, content]
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        featuredImage:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        published:
+          type: boolean
+        readTime:
+          type: integer
+        publishedAt:
+          type: string
+
+    BlogPostUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        featuredImage:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        published:
+          type: boolean
+        readTime:
+          type: integer
+        publishedAt:
+          type: string
+
+    # ── Career ────────────────────────────────────────────────────────────────────
+    Career:
+      type: object
+      required: [id, title, department, type, isActive, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        department:
+          type: string
+        location:
+          type: ["string", "null"]
+        type:
+          type: string
+          description: "full_time | part_time | contract | internship"
+        description:
+          type: ["string", "null"]
+        requirements:
+          type: ["string", "null"]
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+
+    CareerInput:
+      type: object
+      required: [title, department, type]
+      properties:
+        title:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        requirements:
+          type: string
+        isActive:
+          type: boolean
+
+    CareerUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        requirements:
+          type: string
+        isActive:
+          type: boolean
+
+    # ── Contact ──────────────────────────────────────────────────────────────────
+    Contact:
+      type: object
+      required: [id, name, email, message, status, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        subject:
+          type: ["string", "null"]
+        message:
+          type: string
+        status:
+          type: string
+          description: "new | read | replied"
+        createdAt:
+          type: string
+
+    ContactInput:
+      type: object
+      required: [name, email, message]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+
+    ContactUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+
+    # ── Appointment ───────────────────────────────────────────────────────────────
+    Appointment:
+      type: object
+      required: [id, name, email, projectType, status, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        projectType:
+          type: string
+        budget:
+          type: ["string", "null"]
+        location:
+          type: ["string", "null"]
+        preferredDate:
+          type: ["string", "null"]
+        message:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "pending | confirmed | completed | cancelled"
+        createdAt:
+          type: string
+
+    AppointmentInput:
+      type: object
+      required: [name, email, projectType]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        projectType:
+          type: string
+        budget:
+          type: string
+        location:
+          type: string
+        preferredDate:
+          type: string
+        message:
+          type: string
+
+    AppointmentUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        preferredDate:
+          type: string
+
+    # ── Client ────────────────────────────────────────────────────────────────────
+    Client:
+      type: object
+      required: [id, name, email, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        company:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        projectId:
+          type: ["integer", "null"]
+        projectTitle:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    ClientInput:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        phone:
+          type: string
+        projectId:
+          type: integer
+        notes:
+          type: string
+
+    ClientUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        phone:
+          type: string
+        projectId:
+          type: integer
+        notes:
+          type: string
+
+    # ── Milestone ─────────────────────────────────────────────────────────────────
+    Milestone:
+      type: object
+      required: [id, projectId, title, status, createdAt]
+      properties:
+        id:
+          type: integer
+        projectId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "pending | in_progress | completed"
+        dueDate:
+          type: ["string", "null"]
+        completedDate:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+        createdAt:
+          type: string
+
+    MilestoneInput:
+      type: object
+      required: [projectId, title, status]
+      properties:
+        projectId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        dueDate:
+          type: string
+        completedDate:
+          type: string
+        sortOrder:
+          type: integer
+
+    MilestoneUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        dueDate:
+          type: string
+        completedDate:
+          type: string
+        sortOrder:
+          type: integer
+
+    # ── Setting ───────────────────────────────────────────────────────────────────
+    Setting:
+      type: object
+      required: [id, key, value]
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+        updatedAt:
+          type: string
+
+    SettingInput:
+      type: object
+      required: [value]
+      properties:
+        value:
+          type: string
+
+    # ── Analytics ─────────────────────────────────────────────────────────────────
+    AnalyticsSummary:
+      type: object
+      required: [totalProjects, totalClients, totalMessages, pendingAppointments, completedProjects, activeProjects]
+      properties:
+        totalProjects:
+          type: integer
+        totalClients:
+          type: integer
+        totalMessages:
+          type: integer
+        pendingAppointments:
+          type: integer
+        completedProjects:
+          type: integer
+        activeProjects:
+          type: integer
+        totalTeamMembers:
+          type: integer
+        totalBlogPosts:
+          type: integer
+
+    ActivityItem:
+      type: object
+      required: [id, type, message, createdAt]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: "contact | appointment | project | blog"
+        message:
+          type: string
+        createdAt:
+          type: string

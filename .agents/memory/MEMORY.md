@@ -1,0 +1,1 @@
+- [Imported artifact registration](imported-artifact-registration.md) — imported Vercel artifacts may need stale backup registration cleared before re-registering the workspace-owned web artifact.

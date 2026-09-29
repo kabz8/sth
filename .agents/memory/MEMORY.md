@@ -1,1 +1,2 @@
 - [Imported artifact registration](imported-artifact-registration.md) — imported Vercel artifacts may need stale backup registration cleared before re-registering the workspace-owned web artifact.
+- [Supabase transaction pooler](supabase-pooler.md) — use the reachable transaction pooler URI for serverless Postgres connections, not the direct database host.
